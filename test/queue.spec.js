@@ -1,4 +1,4 @@
-const Queue = require('../src/queue');
+/* const Queue = require('../src/queue');
 const MaxHeap = require('../src/max-heap');
 
 describe('PriorityQueue', () => {
@@ -140,3 +140,4 @@ describe('PriorityQueue', () => {
 		});
 	});
 });
+ */
