@@ -14,18 +14,18 @@ class Node {
 		} else if (!this.right) {
 			this.right = node;
 			node.parent = this;
-		}
+		} 
 	}
 
 	removeChild(node) {
 		if (this.left === node) {
-			node.parent = null;
+			this.left.parent = null;
 			this.left = null;
-		}	else if (this.right === node) {
-			node.parent = null;
+		} else if (this.right === node) {
+			this.right.parent = null;
 			this.right = null;
 		} else {
-			throw 'Passed node is not a child of this node';
+			throw "Passed node is not a child of this node";
 		}
 	}
 
@@ -34,67 +34,78 @@ class Node {
 			this.parent.removeChild(this);
 		}
 	}
-
+	
 	swapWithParent() {
 		if (this.parent) {
-			if (this === this.parent.left) {
-				this.right = this.parent.right;
+			if (this.parent.left === this) {
+				let nodeParent = this.parent;
+				let nodeLeft = this.left;
+				let nodeRight = this.right;
+				let nodeParentRight = this.parent.right;
+				let nodeParentLeft = this.parent.left;
 
-				if (this.left) {
-					this.left.parent = this.parent; 
-					this.parent.left = this.left;
-				}
+				this.parent.left = null; 
+				this.parent.right = null;
 
 				if (this.right) {
-					this.right.parent = this.parent;
 					this.parent.right = this.right;
+					this.right.parent = this.parent;
+				}
+				
+				if (this.left) {
+					this.parent.left = this.left;
+					this.left.parent = this.parent;
 				}
 
-				if (this.parent.right) {
-					this.parent.right.parent = this;
+				if (nodeParentRight) {
+					this.right = nodeParentRight;
+					this.right.parent = this;
 				}
-
+					
 				this.left = this.parent;
-								
-				[this.parent.parent, this.parent] = [this, this.parent.parent];
-				
-				if (this.parent) {
-					if (this.parent.left === this.left) {
-						this.parent.left = this;
-					} 
+			}
 
-					if (this.parent.right === this.left) {
-						this.parent.right = this;
-					}
-				}
-			} else if (this === this.parent.right) {
-				this.left = this.parent.left;
+			if (this.parent.right === this) {
+				let nodeParent = this.parent;
+				let nodeLeft = this.left;
+				let nodeRight = this.right;
+				let nodeParentRight = this.parent.right;
+				let nodeParentLeft = this.parent.left;
+
+				this.parent.left = null; 
+				this.parent.right = null;
 
 				if (this.left) {
-					this.left.parent = this.parent; 
 					this.parent.left = this.left;
+					this.left.parent = this.parent;
 				}
-
-				if (this.right) {
-					this.right.parent = this.parent;
-					this.parent.right = this.right;
-				}
-
-				this.right = this.parent;
-
-				[this.parent.parent, this.parent] = [this, this.parent.parent];
 				
-				this.right.left.parent = this;
+				if (this.right) {
+					this.parent.right = this.right;
+					this.right.parent = this.parent;
+				}
 
-				if (this.parent) {
-					if (this.parent.left === this.left) {
+			
+				this.left = nodeParentLeft;
+				this.left.parent = this;
+		
+					
+				this.right = this.parent;
+			}
+			
+			[this.parent.parent, this.parent] = [this, this.parent.parent];
+			
+			if (this.parent) {
+				if (this.parent.left) {
+					if (this.parent.left.parent === this) {
 						this.parent.left = this;
-					} 
-
-					if (this.parent.right === this.left) {
+					}
+				}	
+				if (this.parent.right) {
+					if (this.parent.right.parent === this) {
 						this.parent.right = this;
 					}
-				} 
+				}	
 			}
 		}
 	}
