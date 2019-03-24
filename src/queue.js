@@ -1,8 +1,8 @@
 const MaxHeap = require('./max-heap.js');
 
 class PriorityQueue {
-	constructor(maxSize) {
-
+	constructor(maxSize = 30) {
+		this.maxSize = maxSize;
 	}
 
 	push(data, priority) {
@@ -14,11 +14,12 @@ class PriorityQueue {
 	}
 
 	size() {
+		return this.length;
 
 	}
 
 	isEmpty() {
-		
+		return this.length === 0;		
 	}
 }
 
